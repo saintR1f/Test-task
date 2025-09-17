@@ -13,19 +13,11 @@ const closeFullPost = () => {
   postOpend.value = false
 }
 
-const openFullPost = async (userIId) => {
-  const postData = await fullFetchItems(userIId)
+const openFullPost = async (postId) => {
+  const postData = await fullFetchItemsByPostId(postId)
 
   if (postData) {
     currentPost.value = postData
-    postOpend.value = true
-  }
-}
-const openFullPostById = async (postIId) => {
-  const postData = await fullFetchItemsByPostId(postIId)
-
-  if (postData) {
-    currentPost.value = { posts: [postData] }
     postOpend.value = true
   }
 }
@@ -46,6 +38,13 @@ const fullFetchItemsByInput = async (inputString) => {
 }
 
 const fullFetchItemsByPostId = async (id) => {
+  const storageKey = id
+
+  const cache = getItemsFromStorage(storageKey)
+  if (cache) {
+    return cache
+  }
+
   const url = `https://dummyjson.com/posts/${id}`
   try {
     const response = await fetch(url)
@@ -54,7 +53,7 @@ const fullFetchItemsByPostId = async (id) => {
     }
 
     const data = await response.json()
-
+    saveToStorage(storageKey, data)
     return data
   } catch (error) {
     console.error(error.message)
@@ -102,35 +101,13 @@ const fetchItems = async () => {
     console.error(error.message)
   }
 }
-const fullFetchItems = async (id) => {
-  const storageKey = id
 
-  const cache = getItemsFromStorage(storageKey)
-  if (cache) {
-    return cache
-  }
-
-  const url = `https://dummyjson.com/posts/user/${storageKey}`
-  try {
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error(response.status)
-    }
-
-    const data = await response.json()
-
-    saveToStorage(storageKey, data)
-    return data
-  } catch (error) {
-    console.error(error.message)
-  }
-}
 const updatePostInList = (updatedPost) => {
   const index = items.value.findIndex((item) => item.id === updatedPost.id)
   items.value[index] = { ...items.value[index], ...updatedPost }
 
-  const storageKey = 'posts_list'
-  saveToStorage(storageKey, items.value)
+  const storageKey = items.value[index].id
+  saveToStorage(storageKey, items.value[index])
 }
 watch(
   () => inputData.value,
@@ -139,7 +116,7 @@ watch(
 onMounted(async () => {
   await fetchItems()
 })
-provide('Actions', { closeFullPost, openFullPost, updatePostInList, openFullPostById })
+provide('Actions', { closeFullPost, openFullPost, updatePostInList })
 </script>
 
 <template>
@@ -183,6 +160,7 @@ provide('Actions', { closeFullPost, openFullPost, updatePostInList, openFullPost
           :post-dislikes="item.reactions.dislikes"
           :post-views="item.views"
           :post-user-id="item.userId"
+          :post-id="item.id"
         />
       </div>
     </div>

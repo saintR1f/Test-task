@@ -9,6 +9,7 @@ const props = defineProps({
   postDislikes: Number,
   postViews: Number,
   postUserId: Number,
+  postId: Number,
 })
 
 // userId.value = props.postUserId
@@ -22,7 +23,7 @@ const { openFullPost } = inject('Actions')
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        @click="openFullPost(postUserId)"
+        @click="openFullPost(postId)"
         style="cursor: pointer"
       >
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -50,7 +51,7 @@ const { openFullPost } = inject('Actions')
       </svg>
     </div>
     <div class="item-info">
-      <p @click="openFullPost(postUserId)" class="title-link">{{ postTitle }}</p>
+      <p @click="openFullPost(postId)" class="title-link">{{ postTitle }}</p>
 
       <p class="post-body">{{ postBody }}</p>
       <div class="post-reactions">

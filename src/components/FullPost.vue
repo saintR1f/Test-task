@@ -7,16 +7,13 @@ const editedTitle = ref('')
 const editedBody = ref('')
 const showButton = ref(false)
 
-const { closeFullPost, updatePostInList, openFullPostById } = inject('Actions')
+const { closeFullPost, updatePostInList, openFullPost } = inject('Actions')
 const props = defineProps({
   postData: Object,
 })
 
-const currentPostId = computed(() => props.postData.posts[0].id)
-
 const post = computed(() => {
-  if (!props.postData || !props.postData.posts) return null
-  return props.postData.posts[0]
+  return props.postData
 })
 
 const postId = computed(() => post.value.id)
@@ -44,18 +41,14 @@ const getPrevPostId = (currentId) => {
 }
 
 const loadNextPost = () => {
-  const nextId = getNextPostId(currentPostId.value)
-  console.log(nextId)
-  if (nextId !== currentPostId.value) {
-    openFullPostById(nextId)
-  }
+  const nextId = getNextPostId(postId.value)
+  openFullPost(nextId)
 }
 
 const loadPrevPost = () => {
-  const prevId = getPrevPostId(currentPostId.value)
-  if (prevId !== currentPostId.value) {
-    openFullPostById(prevId)
-  }
+  const prevId = getPrevPostId(postId.value)
+
+  openFullPost(prevId)
 }
 
 const saveChanges = async () => {
@@ -81,6 +74,7 @@ const saveChanges = async () => {
 
     isEditing.value = false
     showButton.value = false
+    updatePostInList(updatedPost)
   } catch (error) {
     console.error(error.message)
   }

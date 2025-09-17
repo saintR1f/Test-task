@@ -71,10 +71,9 @@ const saveChanges = async () => {
       post.value.title = updatedPost.title
       post.value.body = updatedPost.body
     }
-
+    updatePostInList(updatedPost)
     isEditing.value = false
     showButton.value = false
-    updatePostInList(updatedPost)
   } catch (error) {
     console.error(error.message)
   }
@@ -82,6 +81,8 @@ const saveChanges = async () => {
 const checkChanges = () => {
   if (isEditing.value) {
     showButton.value = editedTitle.value !== postTitle.value || editedBody.value !== postBody.value
+  } else {
+    showButton.value = false
   }
 }
 const cancelEditing = () => {

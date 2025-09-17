@@ -108,11 +108,16 @@ const updatePostInList = (updatedPost) => {
 
   const storageKey = items.value[index].id
   saveToStorage(storageKey, items.value[index])
+
+  const storageKey2 = 'posts_list'
+  saveToStorage(storageKey2, items.value)
 }
+
 watch(
   () => inputData.value,
   (newInput) => fullFetchItemsByInput(newInput),
 )
+
 onMounted(async () => {
   await fetchItems()
 })

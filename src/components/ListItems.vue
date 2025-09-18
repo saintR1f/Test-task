@@ -121,6 +121,10 @@ watch(
 onMounted(async () => {
   await fetchItems()
 })
+watch(
+  () => items.value,
+  async () => await fullFetch(),
+)
 provide('Actions', { closeFullPost, openFullPost, updatePostInList })
 </script>
 

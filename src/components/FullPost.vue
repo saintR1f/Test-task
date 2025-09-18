@@ -67,10 +67,6 @@ const saveChanges = async () => {
 
     const updatedPost = await response.json()
 
-    if (post.value) {
-      post.value.title = updatedPost.title
-      post.value.body = updatedPost.body
-    }
     updatePostInList(updatedPost)
     isEditing.value = false
     showButton.value = false

@@ -52,6 +52,7 @@ const loadPrevPost = () => {
 }
 
 const saveChanges = async () => {
+  //Изменения полноценно отобразяться после обновления страницы
   try {
     const response = await fetch(`https://dummyjson.com/posts/${postId.value}`, {
       method: 'PATCH',
@@ -66,10 +67,10 @@ const saveChanges = async () => {
     }
 
     const updatedPost = await response.json()
-
-    updatePostInList(updatedPost)
     isEditing.value = false
     showButton.value = false
+
+    updatePostInList(updatedPost)
   } catch (error) {
     console.error(error.message)
   }

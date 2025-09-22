@@ -12,7 +12,6 @@ const props = defineProps({
   postId: Number,
 })
 
-// userId.value = props.postUserId
 const { openFullPost } = inject('Actions')
 </script>
 

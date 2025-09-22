@@ -122,7 +122,7 @@ const fetchComments = async (postIId) => {
 
 onMounted(() => {
   document.body.style.overflow = 'hidden'
-  document.body.style.paddingRight = '15px'
+
   document.body.style.background = 'rgb(18, 32, 51)'
 })
 watch(
@@ -157,7 +157,6 @@ watch([() => editedTitle.value, () => editedBody.value], () => {
 
 onUnmounted(() => {
   document.body.style.overflow = ''
-  document.body.style.paddingRight = '0px'
 })
 </script>
 
@@ -222,28 +221,30 @@ onUnmounted(() => {
 
             <details class="comments">
               <summary class="comments-title">Комментарии ({{ commentsInfo.length }})</summary>
-              <div v-for="comment in commentsInfo" :key="comment.id" class="comments-content">
-                <div class="com-inc">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <path
-                        d="M8 15C5.79086 15 4 16.7909 4 19V21H20V19C20 16.7909 18.2091 15 16 15H12M12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11C14.2091 11 16 9.20914 16 7C16 6.27143 15.8052 5.58835 15.4649 5"
-                        stroke="#000000"
-                        stroke-width="1.5"
+              <div style="max-height: 90px; overflow: scroll">
+                <div v-for="comment in commentsInfo" :key="comment.id" class="comments-content">
+                  <div class="com-inc">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                      ></path>
-                    </g>
-                  </svg>
-                  <p class="comment-author">- {{ comment.user.username }}</p>
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          d="M8 15C5.79086 15 4 16.7909 4 19V21H20V19C20 16.7909 18.2091 15 16 15H12M12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11C14.2091 11 16 9.20914 16 7C16 6.27143 15.8052 5.58835 15.4649 5"
+                          stroke="#000000"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </g>
+                    </svg>
+                    <p class="comment-author">- {{ comment.user.username }}</p>
+                  </div>
+                  <p class="comment-body">{{ comment.body }}</p>
                 </div>
-                <p class="comment-body">{{ comment.body }}</p>
               </div>
               <p v-if="commentsInfo.length === 0">Комментариев нет</p>
             </details>
@@ -435,6 +436,7 @@ p {
   padding: 0;
   width: 600px;
   border-style: none;
+  border-bottom: solid 2px black;
 }
 .author-job {
   padding-left: 20px;

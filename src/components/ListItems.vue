@@ -22,8 +22,8 @@ const openFullPost = async (postId) => {
   }
 }
 
-const fullFetchItemsByInput = async (inputString) => {
-  const url = `https://dummyjson.com/posts/search?q=${inputString}`
+const fullFetchItemsByInput = async (query) => {
+  const url = `https://dummyjson.com/posts/search?q=${query}`
   try {
     const response = await fetch(url)
     if (!response.ok) {
@@ -121,10 +121,7 @@ watch(
 onMounted(async () => {
   await fetchItems()
 })
-watch(
-  () => items.value,
-  async () => await fullFetch(),
-)
+
 provide('Actions', { closeFullPost, openFullPost, updatePostInList })
 </script>
 

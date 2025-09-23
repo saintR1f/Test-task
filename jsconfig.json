@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": ["Test-task/src/*"]
+      "@/*": ["./Test-task/src/*"]
     }
   },
   "exclude": ["node_modules", "docs"]
